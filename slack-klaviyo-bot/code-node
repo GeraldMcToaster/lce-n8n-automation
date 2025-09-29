@@ -1,0 +1,11 @@
+const text = $json.text;
+
+const instructionMatch = text.match(/Instruction:\s*(.*)/i);
+const productsMatch = text.match(/Products:\s*([\s\S]*?)(?:Notes:|$)/i);
+const notesMatch = text.match(/Notes:\s*(.*)/i);
+
+return [{
+  instruction: instructionMatch ? instructionMatch[1].trim() : "",
+  products: productsMatch ? productsMatch[1].split("\n").map(p => p.replace(/^-/, "").trim()).filter(p => p) : [],
+  notes: notesMatch ? notesMatch[1].trim() : ""
+}];
