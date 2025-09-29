@@ -1,0 +1,29 @@
+// Must be dynamic, no set insturctions or titles
+
+return [
+  {
+    json: {
+      instruction: "New arrivals promotion",
+      notes: "Highlight the many use cases of our new jams with a clear call to action",
+      promo: {
+        code: "",
+        description: "",
+        expiry: ""
+      },
+      products: items
+        .filter(item => item.json.products && item.json.products[0])
+        .map(item => {
+          const p = item.json.products[0];
+          return {
+            title: p.title,
+            price: p.variants?.[0]?.price || "",
+            description: (p.body_html || "")
+              .replace(/<[^>]+>/g, "") // strip HTML
+              .slice(0, 220),          // trim
+            image: p.image?.src || "",
+            handle: `https://low-carb-emporium-australia.myshopify.com/products/${p.handle}`
+          };
+        })
+    }
+  }
+];
